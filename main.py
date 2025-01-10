@@ -6,35 +6,39 @@ def main():
     sorted = letter_sorted(letter_dict)
     print(f"--- Begin report of {book_path} ---")
     print(f"{num_words} words found in the document")
+    print()
     for c in sorted:
-        print(f"The {c} character was found {sorted[c]} times")
+        if not c["char"].isalpha():
+            continue
+        print(f"The {c['char']} character was found {c['num']} times")
     print("--- End report ---")
 
 
-
+#open book
 def get_book_text(path):
     with open(path) as f:
         return f.read()
 
-
+#count the number of words in the book
 def count_words(text):
     words = text.split()
     return len(words)
 
+#track count of each letter
 def count_characters(text):
     letter = {}
     for c in text:
         lowered = c.lower()
-        if lowered.isalpha():
-            if lowered in letter:
-                letter[lowered] += 1
-            else:
-                letter[lowered] = 1
+        if lowered in letter:
+            letter[lowered] += 1
+        else:
+            letter[lowered] = 1
     return letter
 
-def sort_on(letter_dict):
-    return letter_dict["num"]
+def sort_on(d):
+    return d["num"]
 
+#sorting dictionary into list from highest count to lowest
 def letter_sorted(num_chars_dict):
     sorted = []
     for l in num_chars_dict:
